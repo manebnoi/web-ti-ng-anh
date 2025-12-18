@@ -232,25 +232,83 @@
         // Để có 1000-3000 câu, bạn cần copy paste thêm vào mảng này.
         // type: 1=Trắc nghiệm, 2=Ghép từ, 3=Tìm lỗi, 4=Sửa câu
         const fullQuestionBank = [
+            // --- PHẦN 1: TRẮC NGHIỆM (MULTIPLE CHOICE) ---
+    { id: 1, type: 1, question: "She _____ to school every day.", options: ["go", "goes", "going", "went"], answer: "goes" },
+    { id: 2, type: 1, question: "I haven't seen him _____ 2015.", options: ["since", "for", "in", "at"], answer: "since" },
+    { id: 3, type: 1, question: "If it rains, we _____ at home.", options: ["stay", "would stay", "will stay", "stayed"], answer: "will stay" },
+    { id: 4, type: 1, question: "This is the book _____ I bought yesterday.", options: ["who", "whom", "which", "where"], answer: "which" },
+    { id: 5, type: 1, question: "My father enjoys _____ newspapers in the morning.", options: ["read", "reading", "to read", "reads"], answer: "reading" },
+    { id: 6, type: 1, question: "Would you mind _____ the window?", options: ["close", "closing", "to close", "closed"], answer: "closing" },
+    { id: 7, type: 1, question: "He is the _____ student in my class.", options: ["tall", "taller", "tallest", "most tall"], answer: "tallest" },
+    { id: 8, type: 1, question: "We used to _____ in the countryside.", options: ["live", "living", "lived", "lives"], answer: "live" },
+    { id: 9, type: 1, question: "Nam speaks English very _____.", options: ["good", "well", "bad", "slow"], answer: "well" },
+    { id: 10, type: 1, question: "The car _____ in Japan is very expensive.", options: ["make", "making", "made", "to make"], answer: "made" },
+    { id: 11, type: 1, question: "I wish I _____ a car now.", options: ["have", "had", "will have", "am having"], answer: "had" },
+    { id: 12, type: 1, question: "Remember _____ off the lights before leaving.", options: ["turn", "turning", "to turn", "turned"], answer: "to turn" },
+    
+    // --- PHẦN 2: GHÉP TỪ (WORD SCRAMBLE) ---
+    // Lưu ý: answer phải viết đúng chuẩn ngữ pháp
+    { id: 13, type: 2, question: "is / name / My / John.", answer: "My name is John" },
+    { id: 14, type: 2, question: "you / Do / like / music?", answer: "Do you like music" },
+    { id: 15, type: 2, question: "beautiful / is / She / a / girl.", answer: "She is a beautiful girl" },
+    { id: 16, type: 2, question: "learning / English / I / am / now.", answer: "I am learning English now" },
+    { id: 17, type: 2, question: "go / Let's / for / a / walk.", answer: "Let's go for a walk" },
+    { id: 18, type: 2, question: "homework / Have / finished / you / your?", answer: "Have you finished your homework" },
+    { id: 19, type: 2, question: "interested / is / He / in / soccer.", answer: "He is interested in soccer" },
+    { id: 20, type: 2, question: "car / than / faster / plane / A / is / a / not.", answer: "A car is not faster than a plane" },
+    { id: 21, type: 2, question: "forward / looking / to / I / am / you / seeing.", answer: "I am looking forward to seeing you" },
+    { id: 22, type: 2, question: "enough / old / isn't / She / to / drive.", answer: "She isn't old enough to drive" },
+    { id: 23, type: 2, question: "long / How / you / lived / have / here?", answer: "How long have you lived here" },
+    { id: 24, type: 2, question: "idea / good / That / is / a.", answer: "That is a good idea" },
+
+    // --- PHẦN 3: TÌM LỖI SAI (FIND MISTAKE) ---
+    // Question chứa toàn bộ câu, options là các từ gạch chân, answer là từ sai
+    { id: 25, type: 3, question: "He *go* to *school* by *bus* every *morning*.", options: ["go", "school", "bus", "morning"], answer: "go" },
+    { id: 26, type: 3, question: "She *enjoy* *listening* to *music* in *her* free time.", options: ["enjoy", "listening", "music", "her"], answer: "enjoy" },
+    { id: 27, type: 3, question: "My *mother* bought *me* a *new* bike *yesterday*.", options: ["mother", "me", "new", "yesterday"], answer: "" }, // Câu này đúng (Trick question - ở đây ta giả sử phải có lỗi, ví dụ sửa bought -> buyed để tạo lỗi) -> Sửa lại data dưới:
+    { id: 27, type: 3, question: "My mother *buyed* me *a* new *bike* yesterday.", options: ["buyed", "a", "bike", "yesterday"], answer: "buyed" },
+    { id: 28, type: 3, question: "*Although* he is *old*, but he *runs* very *fast*.", options: ["Although", "old", "runs", "fast"], answer: "Although" }, // Hoặc bỏ "but". Trong trắc nghiệm lỗi sai thường chọn Although hoặc but
+    { id: 29, type: 3, question: "We *look* forward *to* *see* you *soon*.", options: ["look", "to", "see", "soon"], answer: "see" }, // Sửa thành seeing
+    { id: 30, type: 3, question: "This is the *best* book *what* I *have* ever *read*.", options: ["best", "what", "have", "read"], answer: "what" },
+    { id: 31, type: 3, question: "Unless *you* don't *work* hard, you *will* fail *the* exam.", options: ["you", "work", "will", "the"], answer: "don't" }, // Lỗi logic phủ định kép
+    { id: 32, type: 3, question: "There *is* many *people* in *the* room *now*.", options: ["is", "people", "the", "now"], answer: "is" },
+    { id: 33, type: 3, question: "Let's *going* to *the* cinema *tonight*, *shall* we?", options: ["going", "the", "tonight", "shall"], answer: "going" },
+    { id: 34, type: 3, question: "She *asked* me *where* did *I* live.", options: ["asked", "where", "did", "I"], answer: "did" }, // Sai trật tự từ câu gián tiếp
+    { id: 35, type: 3, question: "*Neither* Mary *nor* her friends *is* going *to* the party.", options: ["Neither", "nor", "is", "to"], answer: "is" }, // Chia theo danh từ số nhiều gần nhất (friends -> are)
+    { id: 36, type: 3, question: "If I *am* you, I *would* learn *harder* for the *test*.", options: ["am", "would", "harder", "test"], answer: "am" }, // Câu điều kiện loại 2 -> were
+
+    // --- PHẦN 4: VIẾT LẠI CÂU (SENTENCE CORRECTION/REWRITE) ---
+    { id: 37, type: 4, question: "He don't like playing football.", answer: "He doesn't like playing football" },
+    { id: 38, type: 4, question: "Where did you went yesterday?", answer: "Where did you go yesterday" },
+    { id: 39, type: 4, question: "My homework have been finished.", answer: "My homework has been finished" },
+    { id: 40, type: 4, question: "She walks slow.", answer: "She walks slowly" },
+    { id: 41, type: 4, question: "I haven't saw him for a long time.", answer: "I haven't seen him for a long time" },
+    { id: 42, type: 4, question: "This house was build in 1990.", answer: "This house was built in 1990" },
+    { id: 43, type: 4, question: "Rewrite: People speak English all over the world. (Passive Voice)", answer: "English is spoken all over the world" },
+    { id: 44, type: 4, question: "Rewrite: 'I am tired,' she said. (Reported Speech)", answer: "She said she was tired" },
+    { id: 45, type: 4, question: "Rewrite: He is too short to play basketball. (Use 'tall')", answer: "He is not tall enough to play basketball" },
+    { id: 46, type: 4, question: "Rewrite: It's a pity I can't swim. (Use 'wish')", answer: "I wish I could swim" },
+    { id: 47, type: 4, question: "Rewrite: Shall we go to the park? (Use 'Suggest')", answer: "I suggest going to the park" },
+    { id: 48, type: 4, question: "Rewrite: He drives dangerously. (He is a...)", answer: "He is a dangerous driver" }
             // PART 1: MULTIPLE CHOICE (Trắc nghiệm)
-            { id: 1, type: 1, question: "She _____ to school every day.", options: ["go", "goes", "going", "went"], answer: "goes" },
-            { id: 2, type: 1, question: "I haven't seen him _____ 2015.", options: ["since", "for", "in", "at"], answer: "since" },
-            { id: 3, type: 1, question: "If it rains, we _____ at home.", options: ["stay", "would stay", "will stay", "stayed"], answer: "will stay" },
-            { id: 4, type: 1, question: "This is the book _____ I bought yesterday.", options: ["who", "whom", "which", "where"], answer: "which" },
+            { id: 49, type: 1, question: "She _____ to school every day.", options: ["go", "goes", "going", "went"], answer: "goes" },
+            { id: 50, type: 1, question: "I haven't seen him _____ 2015.", options: ["since", "for", "in", "at"], answer: "since" },
+            { id: 51, type: 1, question: "If it rains, we _____ at home.", options: ["stay", "would stay", "will stay", "stayed"], answer: "will stay" },
+            { id: 52, type: 1, question: "This is the book _____ I bought yesterday.", options: ["who", "whom", "which", "where"], answer: "which" },
             
             // PART 2: WORD SCRAMBLE (Ghép từ)
-            { id: 5, type: 2, question: "is / name / My / John.", answer: "My name is John" },
-            { id: 6, type: 2, question: "you / Do / like / music?", answer: "Do you like music" },
-            { id: 7, type: 2, question: "beautiful / is / She / a / girl.", answer: "She is a beautiful girl" },
+            { id: 53, type: 2, question: "is / name / My / John.", answer: "My name is John" },
+            { id: 54, type: 2, question: "you / Do / like / music?", answer: "Do you like music" },
+            { id: 55, type: 2, question: "beautiful / is / She / a / girl.", answer: "She is a beautiful girl" },
 
             // PART 3: FIND MISTAKE (Tìm lỗi sai - người chơi chọn từ sai)
             // Format: question là câu đầy đủ, options là các phần gạch chân, answer là phần bị sai.
-            { id: 8, type: 3, question: "He *go* to *school* by *bus* every *morning*.", options: ["go", "school", "bus", "morning"], answer: "go" },
-            { id: 9, type: 3, question: "She *enjoy* *listening* to *music* in *her* free time.", options: ["enjoy", "listening", "music", "her"], answer: "enjoy" },
+            { id: 56, type: 3, question: "He *go* to *school* by *bus* every *morning*.", options: ["go", "school", "bus", "morning"], answer: "go" },
+            { id: 57, type: 3, question: "She *enjoy* *listening* to *music* in *her* free time.", options: ["enjoy", "listening", "music", "her"], answer: "enjoy" },
 
             // PART 4: SENTENCE CORRECTION (Sửa câu)
-            { id: 10, type: 4, question: "He don't like playing football.", answer: "He doesn't like playing football" },
-            { id: 11, type: 4, question: "Where did you went yesterday?", answer: "Where did you go yesterday" }
+            { id: 58, type: 4, question: "He don't like playing football.", answer: "He doesn't like playing football" },
+            { id: 58 type: 4, question: "Where did you went yesterday?", answer: "Where did you go yesterday" }
         ];
 
         // Mở rộng mảng trên để có đủ 1000 câu. 
