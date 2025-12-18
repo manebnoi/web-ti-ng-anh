@@ -1,3 +1,4 @@
+const fullQuestionBank = [
 { id: 1, type: 1, question: "She _______ her homework at the moment.", options: ["is doing", "does", "did", "has done"], answer: "is doing" },
 { id: 2, type: 1, question: "We _______ this film three times already.", options: ["saw", "see", "have seen", "are seeing"], answer: "have seen" },
 { id: 3, type: 1, question: "When I arrived, they _______ dinner.", options: ["were having", "have", "had", "are having"], answer: "were having" },
@@ -249,3 +250,5 @@
 { id: 198, type: 3, question: "The place *where* *we* *met* *there* *was* *crowded*.", options: ["where", "we", "met", "there", "crowded"], answer: "there" },
 { id: 199, type: 3, question: "She said *she* *is* *happy* *then*.", options: ["she", "is", "happy", "then"], answer: "is" },
 { id: 200, type: 3, question: "The student *which* *won* *the prize* *is* *my friend*.", options: ["which", "won", "the prize", "is", "my friend"], answer: "which" }
+];
+export default fullQuestionBank;
