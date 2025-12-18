@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="vi" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>English Tech Master - THCS</title>
+    <style>
+        /* --- CSS: GIAO DIỆN CÔNG NGHỆ --- */
+        :root {
+            --bg-color: #0f0c29;
+            --gradient: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --text-color: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none; /* Chống bôi đen copy */
+            -webkit-user-select: none;
+        }
+
+        /* Chống chuột phải */
+        body.no-context {
+            pointer-events: auto;
+        }
+
+        /* CONTAINER CHÍNH */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* MÀN HÌNH ĐĂNG NHẬP */
+        #login-screen, #game-screen, #result-screen, #leaderboard-screen {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            display: none; /* Mặc định ẩn */
+        }
+
+        #login-screen { display: block; } /* Hiện login đầu tiên */
+
+        h1, h2 {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-purple);
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 30px;
+            margin: 10px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--neon-purple);
+        }
+
+        /* HUD GAME */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+
+        .timer { color: var(--neon-blue); font-weight: bold; }
+        .score { color: #00ff00; }
+
+        /* KHUNG CÂU HỎI */
+        .question-box {
+            font-size: 22px;
+            margin: 20px 0;
+            min-height: 100px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--neon-purple);
+            box-shadow: none;
+        }
+
+        .option-btn:hover {
+            background: var(--neon-purple);
+        }
+
+        /* BẢNG XẾP HẠNG */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        th { color: var(--neon-blue); }
+
+        /* MUSIC CONTROL */
+        .music-control {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* HỆ THỐNG HẠT (Background Effect) */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;"> <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=cyberpunk-2099-105864.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-control" onclick="toggleMusic()">🔊</div>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div id="login-screen">
+            <h1>Tech English Master</h1>
+            <p>Nhập thông tin để bắt đầu thử thách</p>
+            <input type="text" id="player-name" placeholder="Họ và Tên">
+            <input type="text" id="player-class" placeholder="Lớp (Ví dụ: 9A)">
+            <br>
+            <button onclick="startGame()">BẮT ĐẦU (START)</button>
+            <button onclick="showLeaderboard()">BẢNG XẾP HẠNG</button>
+        </div>
+
+        <div id="game-screen">
+            <div class="hud">
+                <span id="display-info">Player: ...</span>
+                <span class="timer" id="timer">25:00</span>
+                <span class="score" id="score">Điểm: 0</span>
+            </div>
+            
+            <div id="game-area">
+                <h3 id="question-type-title" style="color: var(--neon-purple)">Loại câu hỏi</h3>
+                <div class="question-box" id="question-text">Loading...</div>
+                
+                <div id="answer-area"></div>
+                <div id="feedback" style="height: 30px; margin-top: 10px; font-weight: bold;"></div>
+            </div>
+        </div>
+
+        <div id="result-screen">
+            <h1 id="result-title">HOÀN THÀNH!</h1>
+            <p id="final-score">Điểm số: 0</p>
+            <div style="font-size: 50px;">💎 <span id="gems">0</span></div>
+            <p>Bạn đã nhận được phần thưởng đá quý!</p>
+            <button onclick="resetGame()">CHƠI LẠI</button>
+            <button onclick="showLeaderboard()">XEM BẢNG XẾP HẠNG</button>
+        </div>
+
+        <div id="leaderboard-screen">
+            <h2>BẢNG XẾP HẠNG (TOP 10)</h2>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Hạng</th>
+                        <th>Tên</th>
+                        <th>Lớp</th>
+                        <th>Điểm</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button onclick="goHome()">QUAY VỀ</button>
+        </div>
+    </div>
+
+    <script>
+        // --- CẤU HÌNH DỮ LIỆU ---
+        // Để có 1000-3000 câu, bạn cần copy paste thêm vào mảng này.
+        // type: 1=Trắc nghiệm, 2=Ghép từ, 3=Tìm lỗi, 4=Sửa câu
+        const fullQuestionBank = [
+            // PART 1: MULTIPLE CHOICE (Trắc nghiệm)
+            { id: 1, type: 1, question: "She _____ to school every day.", options: ["go", "goes", "going", "went"], answer: "goes" },
+            { id: 2, type: 1, question: "I haven't seen him _____ 2015.", options: ["since", "for", "in", "at"], answer: "since" },
+            { id: 3, type: 1, question: "If it rains, we _____ at home.", options: ["stay", "would stay", "will stay", "stayed"], answer: "will stay" },
+            { id: 4, type: 1, question: "This is the book _____ I bought yesterday.", options: ["who", "whom", "which", "where"], answer: "which" },
+            
+            // PART 2: WORD SCRAMBLE (Ghép từ)
+            { id: 5, type: 2, question: "is / name / My / John.", answer: "My name is John" },
+            { id: 6, type: 2, question: "you / Do / like / music?", answer: "Do you like music" },
+            { id: 7, type: 2, question: "beautiful / is / She / a / girl.", answer: "She is a beautiful girl" },
+
+            // PART 3: FIND MISTAKE (Tìm lỗi sai - người chơi chọn từ sai)
+            // Format: question là câu đầy đủ, options là các phần gạch chân, answer là phần bị sai.
+            { id: 8, type: 3, question: "He *go* to *school* by *bus* every *morning*.", options: ["go", "school", "bus", "morning"], answer: "go" },
+            { id: 9, type: 3, question: "She *enjoy* *listening* to *music* in *her* free time.", options: ["enjoy", "listening", "music", "her"], answer: "enjoy" },
+
+            // PART 4: SENTENCE CORRECTION (Sửa câu)
+            { id: 10, type: 4, question: "He don't like playing football.", answer: "He doesn't like playing football" },
+            { id: 11, type: 4, question: "Where did you went yesterday?", answer: "Where did you go yesterday" }
+        ];
+
+        // Mở rộng mảng trên để có đủ 1000 câu. 
+        // Logic game sẽ tự lọc và lấy ngẫu nhiên.
+
+        // --- BIẾN TRẠNG THÁI GAME ---
+        let currentPlayer = { name: "", class: "", score: 0 };
+        let currentLevelQuestions = [];
+        let currentQuestionIndex = 0;
+        let timerInterval;
+        let timeLeft = 25 * 60; // 25 phút
+        let isMusicPlaying = false;
+        const questionsPerLevel = 20;
+
+        // --- HỆ THỐNG AUDIO ---
+        const audio = document.getElementById("bg-music");
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                audio.pause();
+                document.querySelector('.music-control').innerText = "🔇";
+            } else {
+                audio.play();
+                document.querySelector('.music-control').innerText = "🔊";
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // --- LOGIC CHÍNH ---
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.container > div').forEach(div => div.style.display = 'none');
+            document.getElementById(screenId).style.display = 'block';
+        }
+
+        function startGame() {
+            const name = document.getElementById('player-name').value;
+            const cls = document.getElementById('player-class').value;
+            if (!name || !cls) { alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+
+            currentPlayer.name = name;
+            currentPlayer.class = cls;
+            currentPlayer.score = 0;
+            
+            document.getElementById('display-info').innerText = `${name} - ${cls}`;
+            document.getElementById('score').innerText = `Điểm: 0`;
+
+            // Tạo bộ câu hỏi ngẫu nhiên cho màn chơi
+            generateLevelQuestions();
+            
+            // Reset Timer
+            timeLeft = 25 * 60;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+
+            showScreen('game-screen');
+            loadQuestion();
+            
+            // Tự động bật nhạc nếu chưa bật (cần tương tác người dùng trước)
+            if(!isMusicPlaying) toggleMusic();
+        }
+
+        function generateLevelQuestions() {
+            // Lấy ngẫu nhiên 20 câu từ ngân hàng câu hỏi
+            // Đảm bảo trộn lẫn 4 loại (đơn giản hóa bằng cách lấy random toàn bộ)
+            let shuffled = [...fullQuestionBank].sort(() => 0.5 - Math.random());
+            currentLevelQuestions = shuffled.slice(0, questionsPerLevel);
+            currentQuestionIndex = 0;
+        }
+
+        function updateTimer() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                alert("Hết giờ! Đang tải lại bộ câu hỏi mới...");
+                startGame(); // Restart
+            }
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= currentLevelQuestions.length) {
+                endGame();
+                return;
+            }
+
+            const q = currentLevelQuestions[currentQuestionIndex];
+            const qBox = document.getElementById('question-text');
+            const ansArea = document.getElementById('answer-area');
+            const typeTitle = document.getElementById('question-type-title');
+            const feedback = document.getElementById('feedback');
+            
+            feedback.innerText = "";
+            ansArea.innerHTML = "";
+            qBox.innerHTML = q.question.replace(/\*/g, ""); // Xóa ký tự đánh dấu nếu có
+
+            // Xử lý hiển thị theo loại
+            if (q.type === 1) { // Trắc nghiệm
+                typeTitle.innerText = "Phần 1: Chọn đáp án đúng";
+                let optsDiv = document.createElement('div');
+                optsDiv.className = 'options-grid';
+                q.options.forEach(opt => {
+                    let btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = opt;
+                    btn.onclick = () => checkAnswer(opt, q.answer, q);
+                    optsDiv.appendChild(btn);
+                });
+                ansArea.appendChild(optsDiv);
+            } 
+            else if (q.type === 2) { // Ghép từ
+                typeTitle.innerText = "Phần 2: Sắp xếp thành câu đúng";
+                let input = document.createElement('input');
+                input.placeholder = "Nhập câu hoàn chỉnh...";
+                input.id = "user-input";
+                let btn = document.createElement('button');
+                btn.innerText = "Kiểm tra";
+                btn.onclick = () => checkAnswer(document.getElementById('user-input').value, q.answer, q);
+                ansArea.appendChild(input);
+                ansArea.appendChild(btn);
+            }
+            else if (q.type === 3) { // Tìm lỗi sai
+                typeTitle.innerText = "Phần 3: Chọn từ bị sai";
+                qBox.innerHTML = ""; // Render lại câu hỏi dạng click
+                // Tách câu thành các phần dựa trên config (đơn giản hóa ở đây)
+                // Với demo: ta hiển thị các options để user chọn cái nào sai
+                let partsDiv = document.createElement('div');
+                q.options.forEach(opt => {
+                    let btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = opt;
+                    btn.onclick = () => checkAnswer(opt, q.answer, q);
+                    partsDiv.appendChild(btn);
+                });
+                ansArea.appendChild(partsDiv);
+            }
+            else if (q.type === 4) { // Sửa câu
+                typeTitle.innerText = "Phần 4: Viết lại câu cho đúng";
+                let input = document.createElement('input');
+                input.placeholder = "Viết lại câu đúng...";
+                input.id = "user-input";
+                let btn = document.createElement('button');
+                btn.innerText = "Gửi";
+                btn.onclick = () => checkAnswer(document.getElementById('user-input').value, q.answer, q);
+                ansArea.appendChild(input);
+                ansArea.appendChild(btn);
+            }
+        }
+
+        function checkAnswer(userAns, correctAns, currentQ) {
+            // Chuẩn hóa chuỗi (xóa khoảng trắng thừa, không phân biệt hoa thường)
+            let u = userAns.trim().toLowerCase().replace(/[.,!?]/g, "");
+            let c = correctAns.trim().toLowerCase().replace(/[.,!?]/g, "");
+            
+            const feedback = document.getElementById('feedback');
+
+            if (u === c) {
+                // ĐÚNG
+                feedback.style.color = "#00ff00";
+                feedback.innerText = "Correct! +10 Points";
+                currentPlayer.score += 10;
+                document.getElementById('score').innerText = `Điểm: ${currentPlayer.score}`;
+                
+                // Qua câu tiếp theo
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 1000);
+            } else {
+                // SAI
+                feedback.style.color = "red";
+                feedback.innerText = "Wrong! Changing question...";
+                
+                // Logic: Thay thế câu hỏi hiện tại bằng một câu hỏi ngẫu nhiên KHÁC từ ngân hàng
+                // Để đơn giản: Lấy 1 câu random từ fullQuestionBank trừ câu hiện tại
+                let newQ;
+                do {
+                    newQ = fullQuestionBank[Math.floor(Math.random() * fullQuestionBank.length)];
+                } while (newQ.id === currentQ.id);
+
+                // Thay thế câu hỏi tại vị trí hiện tại
+                currentLevelQuestions[currentQuestionIndex] = newQ;
+                
+                setTimeout(() => {
+                    loadQuestion();
+                }, 1500);
+            }
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            showScreen('result-screen');
+            document.getElementById('final-score').innerText = `Điểm tổng kết: ${currentPlayer.score}`;
+            document.getElementById('gems').innerText = Math.floor(currentPlayer.score / 10); // 10 điểm = 1 đá quý
+            
+            saveToLeaderboard();
+        }
+
+        // --- BẢNG XẾP HẠNG (LOCAL STORAGE) ---
+        function saveToLeaderboard() {
+            let lb = JSON.parse(localStorage.getItem('tech_english_lb')) || [];
+            lb.push(currentPlayer);
+            lb.sort((a, b) => b.score - a.score); // Sắp xếp giảm dần
+            localStorage.setItem('tech_english_lb', JSON.stringify(lb));
+        }
+
+        function showLeaderboard() {
+            showScreen('leaderboard-screen');
+            const tbody = document.querySelector('#leaderboard-table tbody');
+            tbody.innerHTML = "";
+            let lb = JSON.parse(localStorage.getItem('tech_english_lb')) || [];
+            
+            lb.slice(0, 10).forEach((p, index) => { // Top 10
+                let row = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${p.name}</td>
+                    <td>${p.class}</td>
+                    <td>${p.score}</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function goHome() {
+            showScreen('login-screen');
+        }
+        
+        function resetGame() {
+            startGame();
+        }
+
+        // --- CHỐNG GIAN LẬN ---
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } // F12
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)){ return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ return false; }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ return false; }
+        }
+
+    </script>
+</body>
+</html>
