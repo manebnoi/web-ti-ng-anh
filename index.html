@@ -3,143 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Quiz - Tech Edition</title>
+    <title>English Quiz - Gemini Style</title>
     <style>
         :root {
-            --primary: #bc13fe; /* Tím Neon */
-            --secondary: #00f2ff; /* Xanh Neon */
-            --bg-dark: #050510;
+            --bg-body: #131314; /* Màu nền đặc trưng của Gemini */
+            --bg-container: #1e1f20;
+            --text-main: #e3e3e3;
+            --text-sub: #b4b4b4;
+            --accent: #8ab4f8; /* Xanh Google */
+            --option-hover: #333537;
+            --border-color: #444746;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: radial-gradient(circle at center, #1a1a3a 0%, #050510 100%);
-            color: white;
+            font-family: 'Google Sans', 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             height: 100vh;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        /* Hiệu ứng lưới công nghệ (Grid) */
+        /* Hiệu ứng nền mờ ảo nhẹ nhàng thay vì lưới */
         body::before {
             content: "";
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background-image: 
-                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
-            top: -50%;
-            left: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(138, 180, 248, 0.07) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
             z-index: -1;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            from { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            to { transform: perspective(500px) rotateX(60deg) translateY(50px); }
         }
 
         .container {
-            background: rgba(10, 10, 30, 0.8);
-            backdrop-filter: blur(15px);
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.3), inset 0 0 10px rgba(0, 242, 255, 0.2);
-            max-width: 600px;
-            width: 90%;
+            background: var(--bg-container);
+            width: 100%;
+            max-width: 680px;
+            min-height: 400px;
+            margin: 20px;
             padding: 40px;
-            border-radius: 15px;
-            position: relative;
-            z-index: 1;
+            border-radius: 28px; /* Bo tròn lớn kiểu hiện đại */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         h1 {
-            color: var(--secondary);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--secondary);
-        }
-
-        button {
-            padding: 15px 30px;
-            margin: 10px;
-            cursor: pointer;
-            background: transparent;
-            border: 1px solid var(--secondary);
-            color: var(--secondary);
-            font-weight: bold;
-            border-radius: 4px;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        button:hover {
-            background: var(--secondary);
-            color: black;
-            box-shadow: 0 0 20px var(--secondary);
-        }
-
-        .option {
-            display: block;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(188, 19, 254, 0.3);
-            color: white;
-            padding: 15px;
-            margin: 12px 0;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-align: left;
-            border-radius: 8px;
-            font-size: 1.1rem;
         }
 
-        .option:hover {
-            background: rgba(188, 19, 254, 0.1);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        #score-display {
-            font-size: 1.2rem;
-            color: #facc15;
-            margin-top: 20px;
+        p {
+            color: var(--text-sub);
+            text-align: left;
+            margin-bottom: 30px;
         }
 
         #question {
-            min-height: 80px;
-            font-size: 1.4rem;
-            line-height: 1.5;
-            color: #e0e0e0;
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            text-align: left;
+            color: var(--text-main);
+        }
+
+        /* Nút bắt đầu và chơi lại */
+        .btn-primary {
+            background: var(--accent);
+            color: #041e49;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: fit-content;
+            align-self: flex-start;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transform: scale(1.02);
+            background: #aecbfa;
+        }
+
+        /* Ô trả lời (Options) */
+        .option {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 16px 20px;
+            margin: 10px 0;
+            text-align: left;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .option:hover {
+            background: var(--option-hover);
+            border-color: #5f6368;
+        }
+
+        /* Ô nhập liệu cho Type 4 */
+        #user-input {
+            width: 100%;
+            background: #131314;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        #user-input:focus {
+            border-color: var(--accent);
+        }
+
+        #score-display {
+            margin-top: auto;
+            padding-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Animation khi chuyển câu hỏi */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="start-screen">
-        <h1>English Tech</h1>
-        <p style="color: #888; margin-bottom: 20px;">Hệ thống đã sẵn sàng bốc 200 câu hỏi...</p>
-        <button onclick="startGame()">Bắt đầu truy cập</button>
+<div class="container" id="main-container">
+    <div id="start-screen" class="fade-in">
+        <h1>English Quiz</h1>
+        <p>Thử thách kiến thức tiếng Anh với giao diện thông minh.</p>
+        <button class="btn-primary" onclick="startGame()">Bắt đầu ngay</button>
     </div>
 
-    <div id="quiz-screen" style="display:none">
-        <h3 id="question"></h3>
+    <div id="quiz-screen" style="display:none" class="fade-in">
+        <div id="question"> Đang tải câu hỏi...</div>
         <div id="options"></div>
-        <div id="score-display">Tiến trình: <span id="score">0</span></div>
+        <div id="score-display">Tiến trình: <span id="score" style="color: var(--accent)">0</span></div>
     </div>
 
-    <div id="end-screen" style="display:none">
-        <h2 style="color: var(--primary);">KẾT THÚC NHIỆM VỤ</h2>
-        <p id="final-score" style="font-size: 1.5rem;"></p>
-        <button onclick="location.reload()">Khởi động lại</button>
+    <div id="end-screen" style="display:none" class="fade-in">
+        <h1>Hoàn thành!</h1>
+        <p id="final-score" style="font-size: 1.2rem;"></p>
+        <button class="btn-primary" onclick="location.reload()">Làm lại lượt mới</button>
     </div>
 </div>
+
+<audio id="snd-correct" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
+<audio id="snd-wrong" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3"></audio>
+<audio id="snd-win" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
 
 <script type="module" src="main.js"></script>
 </body>
