@@ -41,19 +41,24 @@ function loadQuestion() {
 }
 
 function checkAnswer(user, correct) {
-    if (user === correct) {
-        score += 10;
-        scoreEl.innerText = score;
-    }
-    
-    // Tự động chuyển câu sau 300ms để người dùng kịp thấy phản hồi
-    currentIndex++;
-    loadQuestion();
-}
+    const u = user.trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.?]/g, '');
+    const c = correct.toLowerCase().replace(/\s+/g, ' ').replace(/[.?]/g, '');
+    const container = document.getElementById("main-container");
 
-function endGame() {
-    document.getElementById("quiz-screen").style.display = "none";
-    document.getElementById("end-screen").style.display = "block";
-    document.getElementById("final-score").innerText = 
-        `Điểm cuối cùng: ${score}`;
+    if (u === c) {
+        score += 10;
+        document.getElementById("score").innerText = score;
+        playSound("snd-correct");
+        container.style.boxShadow = "0 0 20px rgba(138, 180, 248, 0.2)";
+    } else {
+        playSound("snd-wrong");
+        container.style.border = "1px solid rgba(217, 101, 112, 0.5)"; // Màu đỏ nhẹ
+    }
+
+    setTimeout(() => {
+        container.style.border = "none";
+        container.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
+        currentIndex++;
+        loadQuestion();
+    }, 600);
 }
