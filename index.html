@@ -206,19 +206,193 @@
         // Bạn cần dùng AI hoặc Excel để tạo ra 3000 dòng tương tự và dán vào đây hoặc load file json
         // Types: 1=Ghép từ, 2=Trắc nghiệm, 3=Tìm lỗi sai, 4=Sửa câu
         const fullQuestionDatabase = [
-            // Mẫu Trắc nghiệm (Type 2)
-            { id: 1, type: 2, q: "Choose the correct answer: She _____ to school everyday.", options: ["go", "goes", "going", "went"], correct: "goes" },
-            { id: 2, type: 2, q: "What is the past tense of 'buy'?", options: ["buyed", "bought", "buying", "buys"], correct: "bought" },
-            { id: 3, type: 2, q: "He is _____ than his brother.", options: ["tall", "taller", "more tall", "tallest"], correct: "taller" },
-            // Mẫu Ghép từ (Type 1 - User xếp lại câu)
-            { id: 4, type: 1, q: "Arrange: is / name / My / John.", correct: "My name is John" },
-            { id: 5, type: 1, q: "Arrange: you / How / are / old ?", correct: "How old are you" },
-            // Mẫu Tìm lỗi sai (Type 3)
-            { id: 6, type: 3, q: "Find error: She don't like playing football.", options: ["She", "don't", "like", "playing"], correct: "don't" },
-            // Mẫu Sửa câu (Type 4)
-            { id: 7, type: 4, q: "Correct the sentence: He play soccer yesterday.", correct: "He played soccer yesterday" },
-            // ... Bạn cần thêm đủ ít nhất 20 câu để test, thực tế cần 3000 câu
-        ];
+    // --- PHẦN 1: THÌ (TENSES) ---
+    { id: 101, type: 2, q: "She _______ her homework at the moment.", options: ["is doing", "does", "did", "has done"], correct: "is doing" },
+    { id: 102, type: 2, q: "We _______ this film three times already.", options: ["saw", "see", "have seen", "are seeing"], correct: "have seen" },
+    { id: 103, type: 2, q: "When I arrived, they _______ dinner.", options: ["were having", "have", "had", "are having"], correct: "were having" },
+    { id: 104, type: 2, q: "By 2025, she _______ from university.", options: ["will graduate", "graduates", "will have graduated", "is graduating"], correct: "will have graduated" },
+    { id: 105, type: 2, q: "He usually _______ to school by bike.", options: ["go", "goes", "went", "is going"], correct: "goes" },
+    { id: 106, type: 2, q: "I _______ English for five years.", options: ["learn", "learned", "have learned", "am learning"], correct: "have learned" },
+    { id: 107, type: 2, q: "She _______ TV when I called her.", options: ["watched", "was watching", "has watched", "watches"], correct: "was watching" },
+    { id: 108, type: 2, q: "They _______ here since 2010.", options: ["live", "lived", "have lived", "are living"], correct: "have lived" },
+    { id: 109, type: 2, q: "My father _______ home late last night.", options: ["comes", "came", "has come", "is coming"], correct: "came" },
+    { id: 110, type: 2, q: "Look! It _______ heavily.", options: ["rains", "rained", "is raining", "has rained"], correct: "is raining" },
+    { id: 111, type: 2, q: "She _______ already _______ dinner.", options: ["has / cooked", "is / cooking", "was / cooking", "will / cook"], correct: "has / cooked" },
+    { id: 112, type: 2, q: "We _______ to the beach tomorrow.", options: ["go", "went", "will go", "have gone"], correct: "will go" },
+    { id: 113, type: 2, q: "He _______ a book when the phone rang.", options: ["reads", "read", "was reading", "has read"], correct: "was reading" },
+    { id: 114, type: 2, q: "She _______ never _______ sushi before.", options: ["has / eaten", "is / eating", "was / eating", "will / eat"], correct: "has / eaten" },
+    { id: 115, type: 2, q: "By the time we arrived, the train _______.", options: ["leaves", "left", "had left", "has left"], correct: "had left" },
+    { id: 116, type: 2, q: "I _______ him since last year.", options: ["don't see", "didn't see", "haven't seen", "won't see"], correct: "haven't seen" },
+    { id: 117, type: 2, q: "She _______ to music every evening.", options: ["listen", "listens", "listened", "is listening"], correct: "listens" },
+    { id: 118, type: 2, q: "They _______ football when it started to rain.", options: ["play", "played", "were playing", "have played"], correct: "were playing" },
+    { id: 119, type: 2, q: "He _______ his keys, so he can't open the door.", options: ["loses", "lost", "has lost", "is losing"], correct: "has lost" },
+    { id: 120, type: 2, q: "She _______ as a teacher for ten years.", options: ["works", "worked", "has worked", "is working"], correct: "has worked" },
+    { id: 121, type: 2, q: "I _______ my homework before dinner yesterday.", options: ["finish", "finished", "had finished", "have finished"], correct: "had finished" },
+    { id: 122, type: 2, q: "He _______ a car last month.", options: ["buys", "bought", "has bought", "is buying"], correct: "bought" },
+    { id: 123, type: 2, q: "She _______ for the bus when I saw her.", options: ["waits", "waited", "was waiting", "has waited"], correct: "was waiting" },
+    { id: 124, type: 2, q: "We _______ English every Monday.", options: ["study", "studied", "have studied", "are studying"], correct: "study" },
+    { id: 125, type: 2, q: "They _______ in this house since they got married.", options: ["live", "lived", "have lived", "are living"], correct: "have lived" },
+    { id: 126, type: 2, q: "She _______ tired because she worked late.", options: ["is", "was", "has been", "will be"], correct: "was" },
+    { id: 127, type: 2, q: "He _______ his homework yet.", options: ["doesn't finish", "didn't finish", "hasn't finished", "won't finish"], correct: "hasn't finished" },
+    { id: 128, type: 2, q: "When we got there, the movie _______.", options: ["starts", "started", "had started", "has started"], correct: "had started" },
+    { id: 129, type: 2, q: "She _______ to Paris twice.", options: ["goes", "went", "has gone", "is going"], correct: "has gone" },
+    { id: 130, type: 2, q: "I _______ him tomorrow.", options: ["meet", "met", "will meet", "have met"], correct: "will meet" },
+    { id: 131, type: 2, q: "He _______ breakfast when I arrived.", options: ["has", "had", "was having", "is having"], correct: "was having" },
+    { id: 132, type: 2, q: "She _______ a letter at the moment.", options: ["writes", "wrote", "is writing", "has written"], correct: "is writing" },
+    { id: 133, type: 2, q: "They _______ the house before 2010.", options: ["build", "built", "had built", "have built"], correct: "had built" },
+    { id: 134, type: 2, q: "I _______ my friend every weekend.", options: ["visit", "visited", "have visited", "am visiting"], correct: "visit" },
+    { id: 135, type: 2, q: "She _______ asleep when the phone rang.", options: ["falls", "fell", "was falling", "has fallen"], correct: "was falling" },
+    { id: 136, type: 2, q: "He _______ English very well.", options: ["speak", "speaks", "spoke", "has spoken"], correct: "speaks" },
+    { id: 137, type: 2, q: "We _______ lunch when she came.", options: ["have", "had", "were having", "are having"], correct: "were having" },
+    { id: 138, type: 2, q: "She _______ her keys an hour ago.", options: ["loses", "lost", "has lost", "is losing"], correct: "lost" },
+    { id: 139, type: 2, q: "I _______ never _______ such a beautiful place.", options: ["have / seen", "am / seeing", "was / seeing", "will / see"], correct: "have / seen" },
+    { id: 140, type: 2, q: "They _______ dinner before we arrived.", options: ["finish", "finished", "had finished", "have finished"], correct: "had finished" },
+    { id: 141, type: 2, q: "She usually _______ up at 6 a.m.", options: ["get", "gets", "got", "is getting"], correct: "gets" },
+    { id: 142, type: 2, q: "He _______ TV right now.", options: ["watches", "watched", "is watching", "has watched"], correct: "is watching" },
+    { id: 143, type: 2, q: "They _______ to Hanoi last summer.", options: ["go", "went", "have gone", "are going"], correct: "went" },
+    { id: 144, type: 2, q: "I _______ my homework already.", options: ["do", "did", "have done", "am doing"], correct: "have done" },
+    { id: 145, type: 2, q: "She _______ when the teacher entered the room.", options: ["talks", "talked", "was talking", "has talked"], correct: "was talking" },
+    { id: 146, type: 2, q: "We _______ English since primary school.", options: ["learn", "learned", "have learned", "are learning"], correct: "have learned" },
+    { id: 147, type: 2, q: "He _______ the door before he left.", options: ["locks", "locked", "had locked", "has locked"], correct: "had locked" },
+    { id: 148, type: 2, q: "She _______ very happy yesterday.", options: ["is", "was", "has been", "will be"], correct: "was" },
+    { id: 149, type: 2, q: "I _______ to music while doing homework.", options: ["listen", "listened", "am listening", "have listened"], correct: "am listening" },
+    { id: 150, type: 2, q: "They _______ in this city for a long time.", options: ["live", "lived", "have lived", "are living"], correct: "have lived" },
+
+    // --- PHẦN 2: CÂU BỊ ĐỘNG (GHÉP TỪ/SẮP XẾP) ---
+    { id: 201, type: 1, q: "Rewrite: They clean the classroom every day.", correct: "The classroom is cleaned every day" },
+    { id: 202, type: 1, q: "Rewrite: She wrote this letter yesterday.", correct: "This letter was written yesterday" },
+    { id: 203, type: 1, q: "Rewrite: They will build a new hospital.", correct: "A new hospital will be built" },
+    { id: 204, type: 1, q: "Rewrite: People speak English all over the world.", correct: "English is spoken all over the world" },
+    { id: 205, type: 1, q: "Rewrite: Someone has stolen my phone.", correct: "My phone has been stolen" },
+    { id: 206, type: 1, q: "Rewrite: They are repairing the road now.", correct: "The road is being repaired now" },
+    { id: 207, type: 1, q: "Rewrite: He finished his homework last night.", correct: "His homework was finished last night" },
+    { id: 208, type: 1, q: "Rewrite: They have built this bridge recently.", correct: "This bridge has been built recently" },
+    { id: 209, type: 1, q: "Rewrite: She will invite him to the party.", correct: "He will be invited to the party" },
+    { id: 210, type: 1, q: "Rewrite: They don't allow students to use phones.", correct: "Students are not allowed to use phones" },
+
+    // --- PHẦN 3: CÂU BỊ ĐỘNG (TRẮC NGHIỆM) ---
+    { id: 301, type: 2, q: "The house _______ last year.", options: ["build", "built", "was built", "is built"], correct: "was built" },
+    { id: 302, type: 2, q: "English _______ in many countries.", options: ["speaks", "is spoken", "spoke", "has spoken"], correct: "is spoken" },
+    { id: 303, type: 2, q: "The homework _______ by the students.", options: ["do", "did", "is done", "has done"], correct: "is done" },
+    { id: 304, type: 2, q: "The letter _______ tomorrow.", options: ["will send", "will be sent", "is sent", "has sent"], correct: "will be sent" },
+    { id: 305, type: 2, q: "The room _______ every day.", options: ["cleans", "is cleaned", "cleaned", "has cleaned"], correct: "is cleaned" },
+    { id: 306, type: 2, q: "The car _______ repaired at the moment.", options: ["is", "is being", "has been", "was"], correct: "is being" },
+    { id: 307, type: 2, q: "My bike _______ stolen last night.", options: ["is", "was", "has", "has been"], correct: "was" },
+    { id: 308, type: 2, q: "This book _______ written by a famous author.", options: ["is", "was", "has", "is being"], correct: "was" },
+    { id: 309, type: 2, q: "The test _______ next Monday.", options: ["will hold", "will be held", "is held", "has held"], correct: "will be held" },
+    { id: 310, type: 2, q: "The cake _______ by my mother.", options: ["makes", "made", "is made", "has made"], correct: "is made" },
+
+    // --- PHẦN 4: TÌM LỖI SAI (ERROR IDENTIFICATION) ---
+    { id: 401, type: 3, q: "The homework (A)are (B)done (C)by (D)students.", options: ["are", "done", "by", "students"], correct: "are" },
+    { id: 402, type: 3, q: "The letter (A)was (B)send (C)yesterday.", options: ["was", "send", "yesterday"], correct: "send" },
+    { id: 403, type: 3, q: "English (A)is (B)speak (C)here.", options: ["is", "speak", "here"], correct: "speak" },
+    { id: 404, type: 3, q: "The house (A)is (B)build (C)last year.", options: ["is", "build", "last year"], correct: "build" },
+    { id: 405, type: 3, q: "The book (A)were (B)written (C)by (D)him.", options: ["were", "written", "by", "him"], correct: "were" },
+    { id: 406, type: 3, q: "The room (A)is (B)clean (C)every day.", options: ["is", "clean", "every day"], correct: "clean" },
+    { id: 407, type: 3, q: "The car (A)has (B)repair (C)recently.", options: ["has", "repair", "recently"], correct: "repair" },
+    { id: 408, type: 3, q: "This song (A)is (B)sing (C)by (D)her.", options: ["is", "sing", "by", "her"], correct: "sing" },
+    { id: 409, type: 3, q: "The windows (A)are (B)break (C)by (D)the wind.", options: ["are", "break", "by", "the wind"], correct: "break" },
+    { id: 410, type: 3, q: "The problem (A)was (B)solve (C)quickly.", options: ["was", "solve", "quickly"], correct: "solve" },
+
+    // --- CÁC PHẦN BỔ SUNG (BỊ ĐỘNG, ĐIỀU KIỆN, CÂU ƯỚC, MỆNH ĐỀ QH...) ---
+    { id: 501, type: 1, q: "Rewrite: Someone is painting the house.", correct: "The house is being painted" },
+    { id: 502, type: 1, q: "Rewrite: They had finished the work before noon.", correct: "The work had been finished before noon" },
+    { id: 503, type: 1, q: "Rewrite: She can solve this problem.", correct: "This problem can be solved" },
+    { id: 504, type: 1, q: "Rewrite: They must obey the rules.", correct: "The rules must be obeyed" },
+    { id: 505, type: 1, q: "Rewrite: Nobody has cleaned the room yet.", correct: "The room hasn't been cleaned yet" },
+    
+    // ... Trắc nghiệm bị động
+    { id: 601, type: 2, q: "The classroom _______ cleaned after school.", options: ["is", "is being", "was", "has"], correct: "is" },
+    { id: 602, type: 2, q: "The dishes _______ washed by my sister.", options: ["are", "is", "were", "be"], correct: "are" },
+    { id: 603, type: 2, q: "This song _______ often played on the radio.", options: ["is", "was", "has", "will"], correct: "is" },
+    { id: 604, type: 2, q: "The report _______ finished tomorrow.", options: ["is", "will be", "was", "has been"], correct: "will be" },
+    { id: 605, type: 2, q: "The match _______ postponed because of rain.", options: ["is", "was", "has", "will"], correct: "was" },
+    { id: 606, type: 2, q: "My homework _______ checked by the teacher.", options: ["is", "are", "was", "be"], correct: "is" },
+    { id: 607, type: 2, q: "The rules _______ explained clearly.", options: ["is", "are", "was", "be"], correct: "are" },
+    { id: 608, type: 2, q: "The window _______ broken last night.", options: ["is", "was", "has", "is being"], correct: "was" },
+    { id: 609, type: 2, q: "The project _______ completed on time.", options: ["is", "was", "has been", "will"], correct: "has been" },
+    { id: 610, type: 2, q: "The cake _______ eaten already.", options: ["is", "was", "has been", "will be"], correct: "has been" },
+
+    // --- CÂU ĐIỀU KIỆN & ƯỚC (Trắc nghiệm) ---
+    { id: 701, type: 2, q: "If I _______ you, I wouldn't do that.", options: ["am", "was", "were", "be"], correct: "were" },
+    { id: 702, type: 2, q: "If it rains, we _______ at home.", options: ["stay", "will stay", "stayed", "would stay"], correct: "will stay" },
+    { id: 703, type: 2, q: "If she _______ harder, she would pass the exam.", options: ["studies", "studied", "study", "will study"], correct: "studied" },
+    { id: 704, type: 2, q: "If we had more time, we _______ the museum.", options: ["visit", "will visit", "would visit", "visited"], correct: "would visit" },
+    { id: 705, type: 2, q: "If he _______ early, he won't miss the bus.", options: ["leave", "leaves", "left", "would leave"], correct: "leaves" },
+    { id: 706, type: 2, q: "If I had known about the test, I _______ harder.", options: ["study", "will study", "would study", "would have studied"], correct: "would have studied" },
+    { id: 707, type: 2, q: "You will succeed if you _______ your best.", options: ["try", "tried", "will try", "would try"], correct: "try" },
+    { id: 708, type: 2, q: "If she were taller, she _______ a model.", options: ["becomes", "will become", "would become", "became"], correct: "would become" },
+    { id: 709, type: 2, q: "If they had left earlier, they _______ late.", options: ["won't be", "wouldn't be", "aren't", "weren't"], correct: "wouldn't be" },
+    { id: 710, type: 2, q: "If it _______ tomorrow, we will cancel the trip.", options: ["rain", "rains", "rained", "will rain"], correct: "rains" },
+
+    // --- CÂU ƯỚC (Ghép từ) ---
+    { id: 801, type: 1, q: "Rewrite: I don't have a bike. (I wish...)", correct: "I wish I had a bike" },
+    { id: 802, type: 1, q: "Rewrite: She can't swim. (She wishes...)", correct: "She wishes she could swim" },
+    { id: 803, type: 1, q: "Rewrite: I am not rich. (I wish...)", correct: "I wish I were rich" },
+    { id: 804, type: 1, q: "Rewrite: He didn't study hard. (He wishes...)", correct: "He wishes he had studied hard" },
+    { id: 805, type: 1, q: "Rewrite: It is raining now. (I wish...)", correct: "I wish it were not raining" },
+
+    // --- SẮP XẾP CÂU ---
+    { id: 901, type: 1, q: "Arrange: If / rains / it / will / stay / we / home", correct: "If it rains we will stay home" },
+    { id: 902, type: 1, q: "Arrange: had / If / I / time / enough / I / would / travel", correct: "If I had enough time I would travel" },
+    { id: 903, type: 1, q: "Arrange: would / you / what / do / were / rich / if / you", correct: "What would you do if you were rich" },
+    { id: 904, type: 1, q: "Arrange: wish / I / speak / could / English / well", correct: "I wish I could speak English well" },
+    
+    // --- MỆNH ĐỀ QUAN HỆ ---
+    { id: 1001, type: 2, q: "The boy _______ is standing over there is my brother.", options: ["who", "which", "whom", "whose"], correct: "who" },
+    { id: 1002, type: 2, q: "The book _______ I bought yesterday is very interesting.", options: ["who", "which", "whose", "where"], correct: "which" },
+    { id: 1003, type: 2, q: "The girl _______ mother is a teacher lives next door.", options: ["who", "which", "whose", "whom"], correct: "whose" },
+    { id: 1004, type: 2, q: "This is the place _______ we first met.", options: ["which", "that", "where", "who"], correct: "where" },
+    
+    // --- TÌM LỖI SAI (MỆNH ĐỀ QH) ---
+    { id: 1101, type: 3, q: "The man (A)which (B)lives (C)next door (D)is friendly.", options: ["which", "lives", "next door", "is"], correct: "which" },
+    { id: 1102, type: 3, q: "The book (A)who (B)I (C)borrowed (D)is interesting.", options: ["who", "I", "borrowed", "is"], correct: "who" },
+    
+    // --- CÂU TƯỜNG THUẬT (Ghép từ) ---
+    { id: 1201, type: 1, q: "Rewrite: 'I am a student,' said Nam.", correct: "Nam said he was a student" },
+    { id: 1202, type: 1, q: "Rewrite: 'I will help you,' she said.", correct: "She said she would help me" },
+    
+    // --- SO SÁNH (COMPARISONS) ---
+    { id: 1301, type: 2, q: "This building is ______ than that one.", options: ["tall", "taller", "tallest", "more tall"], correct: "taller" },
+    { id: 1302, type: 2, q: "She is the ______ student in my class.", options: ["smart", "smarter", "smartest", "more smart"], correct: "smartest" },
+    { id: 1303, type: 2, q: "Your car is ______ expensive than mine.", options: ["more", "most", "as", "much"], correct: "more" },
+    { id: 1304, type: 2, q: "He runs ______ than his brother.", options: ["fast", "faster", "fastest", "more fast"], correct: "faster" },
+    
+    // --- GIỚI TỪ (PREPOSITIONS) ---
+    { id: 1401, type: 2, q: "He is interested ______ playing football.", options: ["on", "in", "at", "of"], correct: "in" },
+    { id: 1402, type: 2, q: "She is good ______ Math.", options: ["on", "in", "at", "for"], correct: "at" },
+    { id: 1403, type: 2, q: "I am afraid ______ snakes.", options: ["of", "in", "on", "about"], correct: "of" },
+    
+    // --- CÂU HỎI ĐUÔI (TAG QUESTIONS) ---
+    { id: 1501, type: 2, q: "You are a student, ______?", options: ["are you", "aren't you", "do you", "don't you"], correct: "aren't you" },
+    { id: 1502, type: 2, q: "She lives here, ______?", options: ["does she", "doesn't she", "is she", "isn't she"], correct: "doesn't she" },
+    
+    // --- MẠO TỪ (ARTICLES) ---
+    { id: 1601, type: 2, q: "I saw ______ elephant at the zoo.", options: ["a", "an", "the", "x"], correct: "an" },
+    { id: 1602, type: 2, q: "______ sun rises in the East.", options: ["A", "An", "The", "x"], correct: "The" },
+    
+    // --- TÌM LỖI SAI NÂNG CAO ---
+    { id: 1701, type: 3, q: "She (A)is (B)more (C)pretty (D)than her sister.", options: ["is", "more", "pretty", "than"], correct: "more" },
+    { id: 1702, type: 3, q: "I (A)am (B)interested (C)on (D)learning English.", options: ["am", "interested", "on", "learning"], correct: "on" },
+    { id: 1703, type: 3, q: "He (A)stopped (B)to smoke (C)because (D)it is bad.", options: ["stopped", "to smoke", "because", "it is"], correct: "to smoke" },
+    
+    // --- CỤM ĐỘNG TỪ (PHRASAL VERBS) ---
+    { id: 1801, type: 2, q: "Please turn ______ the light. It's dark.", options: ["on", "off", "up", "down"], correct: "on" },
+    { id: 1802, type: 2, q: "Who looks ______ the baby when you are away?", options: ["for", "at", "after", "up"], correct: "after" },
+    
+    // --- TỪ VỰNG & GIAO TIẾP ---
+    { id: 1901, type: 2, q: "- 'Thank you very much for your help.' - '______'", options: ["You're welcome", "No problem", "It's my pleasure", "All are correct"], correct: "All are correct" },
+    { id: 1902, type: 2, q: "Synonym of 'Start': The film will *start* at 8 p.m.", options: ["end", "begin", "finish", "stop"], correct: "begin" },
+    { id: 1903, type: 2, q: "Antonym of 'Hot': It is very *hot* today.", options: ["cold", "warm", "cool", "dry"], correct: "cold" },
+
+    // --- CẤU TẠO TỪ (WORD FORM) ---
+    { id: 2001, type: 2, q: "She sings very ______.", options: ["beautiful", "beautifully", "beauty", "beautify"], correct: "beautifully" },
+    { id: 2002, type: 2, q: "He is a ______ driver.", options: ["care", "careful", "carefully", "careless"], correct: "careful" },
+
+    // --- KIẾN THỨC CHUNG ---
+    { id: 2101, type: 2, q: "The sun sets in the _______.", options: ["East", "West", "North", "South"], correct: "West" },
+    { id: 2102, type: 2, q: "Hanoi is the capital of _______.", options: ["Vietnam", "Thailand", "China", "Japan"], correct: "Vietnam" }
+];
         
         // Để demo hoạt động, mình sẽ nhân bản câu hỏi lên cho đủ số lượng test
         while(fullQuestionDatabase.length < 50) {
